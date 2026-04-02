@@ -5,6 +5,7 @@ Django settings for food_delivery project.
 from pathlib import Path
 from datetime import timedelta
 from decouple import config
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -15,7 +16,12 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-default-key-change-in
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1').split(',')
+# Allow all hosts in development (Railway deployment)
+# In production, specify exact domains
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,.railway.app').split(',')
+
+# Get PORT from environment variable (for Railway/Heroku)
+PORT = os.environ.get('PORT', 8000)
 
 # Application definition
 INSTALLED_APPS = [
